@@ -1,0 +1,82 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2014-05-21 17:51+China Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: STATS_GET_TRIPLES.py:164
+msgid "Neither a syntax file output nor execution was specified: there is nothing to do."
+msgstr ""
+"Aucune sortie de fichier de syntaxe ni exécution n'a été spécifiée : aucune action requise."
+
+#: STATS_GET_TRIPLES.py:173
+msgid "Exactly two labels must be supplied for multiple dichotomy set values"
+msgstr ""
+"Exactement deux libellés doivent être fournis pour les valeurs des jeux de dichotomies multiples."
+
+#: STATS_GET_TRIPLES.py:187
+msgid "Syntax file created: %s"
+msgstr ""
+"Création du fichier de syntaxe : %s"
+
+#: STATS_GET_TRIPLES.py:192
+msgid ""
+"The metadata contains text invalid in the current character set.\n"
+"The dataset cannot be created.  Running Statistics in Unicode mode might resolve this problem."
+msgstr ""
+"Les métadonnées contiennent un texte non valide dans le jeu de caractères en cours.\n"
+"Impossible de créer le jeu de données. L'exécution de Statistics en mode Unicode peut résoudre ce problème."
+
+#: STATS_GET_TRIPLES.py:245
+msgid "Hierarchy files are not supported by this procedure"
+msgstr ""
+"Les fichiers de hiérarchie ne sont pas pris en charge par cette procédure."
+
+#: STATS_GET_TRIPLES.py:531
+msgid "Variable %s has a value, %s for which there is no score"
+msgstr ""
+"La variable %s comporte la valeur %s pour laquelle il n'existe pas de score."
+
+#: STATS_GET_TRIPLES.py:798
+msgid ""
+"The metadata contains text invalid in the current character set.\n"
+"The syntax file cannot be written in that character set.\n"
+"Running Statistics in Unicode mode might resolve this problem."
+msgstr ""
+"Les métadonnées contiennent un texte non valide dans le jeu de caractères en cours.\n"
+"Impossible d'écrire le fichier de syntaxe dans ce jeu de caractères.\n"
+"L'exécution de Statistics en mode Unicode peut résoudre ce problème."
+
+#: STATS_GET_TRIPLES.py:909
+msgid "---"
+msgstr ""
+"---"
+
+
+
