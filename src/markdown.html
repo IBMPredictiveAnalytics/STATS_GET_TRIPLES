@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>STATS GET TRIPLES Extension Command</title>
+
+<link rel="stylesheet" type="text/css" href="extsyntax.css" />
+
+
+
+
+
+</head>
+
+<body>
+<!-- rmarkdown v1 -->
+
+<h1>STATS GET TRIPLES Extension Command</h1>
+
+<p>Read a file in Triple-S format version 2.0.</p>
+<div class="syntax">
+<p>STATS GET TRIPLES<br/>
+METADATA =&ldquo;<em>file</em>&rdquo;<sup>&#42;</sup><br/>
+DATA = &ldquo;<em>file</em>&rdquo;<br/>
+SYNTAX = &ldquo;<em>syntax file</em>&rdquo;<br/>
+DATAENCODING = LOCALE<sup>&#42;&#42;</sup> or UTF8<br/>
+EXECUTE = YES or NO<sup>&#42;&#42;</sup><br/>
+STRMVCODE = &ldquo;<em>string missing value code</em>&rdquo;<br/>
+MAXDATALENGTH = <em>number</em>  </p>
+
+<p>/OPTIONS 
+MDVALLABELS = &ldquo;<em>label for 0</em>&rdquo; &ldquo;<em>label for 1</em>&rdquo;<br/>
+FULLLABELATTR= YES<sup>&#42;&#42;</sup> or NO<br/>
+REMOVEHTML=YES or NO<sup>&#42;&#42;</sup><br/>
+SCORERECODE=YES or NO<sup>&#42;&#42;</sup></p>
+
+<p>/HELP</p>
+
+<p><sup>&#42;</sup> Required<br/>
+<sup>&#42;&#42;</sup> Default</p>
+</div>
+<p>/HELP displays this help and does nothing else.</p>
+
+
+<pre class="example"><code>STATS GET TRIPLES METADATA=&quot;c:/data/mysurvey.xml&quot;
+    SYNTAX = &quot;c:/data/mysurvey.sps&quot;.
+</code></pre>
+
+<p>The output may be an open dataset, a syntax file that reads
+the file, or both.</p>
+
+<p>Triple-S format requires two files.  <strong>METADATA</strong> specifies the
+xml metadata data that defines the formatting and any multiple
+response information.  HIERARCHY files are not supported.</p>
+
+<p><strong>DATA</strong> specifies the data file described by the format.  By
+default, the data file is assumed to have the same name and
+location as the metadata file and extension <em>txt</em>.</p>
+
+<p><strong>DATAENCODING</strong> specifies that the character data are encoded as UTF8 or LOCALE.
+The Triple-S standard expects code page 1252 or equivalent, but other
+encodings might be encountered in the wild.  LOCALE specifies the
+current Statistics LOCALE setting.  The metadata file
+is expected to be in utf8.</p>
+
+<p>If the record length is greater than 50000, use
+<strong>MAXRECORDLENGTH</strong> = number.  Otherwise, bytes beyond that value
+are lost.  It does not matter if the stated length is greater
+than the actual.</p>
+
+<p><strong>SYNTAX</strong> optionally specifies the name of a syntax file that will
+contain the syntax to read the data file.</p>
+
+<p><strong>EXECUTE</strong> specifies whether the syntax (saved or not) should
+be executed.  Note that by default the generated syntax is
+not executed.</p>
+
+<p>At least one of SYNTAX and EXECUTE=YES must be specified.</p>
+
+<h2>OPTIONS</h2>
+
+<p><strong>STRMVCODE</strong> optionally specifies the code to be used for
+string variable missing values.  The default action is
+to examine the highest value code for a string variable
+and increment the last character by one character.</p>
+
+<p>Multiple dichotomy sets are defined with variable values of
+0 and 1.  The value labels default to &ldquo;No&rdquo; and &ldquo;Yes&rdquo;.  A pair
+of alternative labels can be specified with <strong>MDVALLABELS</strong>.</p>
+
+<p>If variable label text exceeds the SPSS variable label length
+limit, which is 255 bytes in current versions, the  text is
+truncated.  Specify <strong>FULLLABELATTR</strong>=YES to create a custom
+attribute with the full text.</p>
+
+<p>The Triple-S standard does not support HTML markup, but in
+practice it may be present.  Specify <strong>REMOVEHTML</strong>=YES to remove
+HTML markup from text.  That causes text of the form
+<code>&lt;...&gt;</code> to be removed, but this could match text that is not
+actually an html tag to be deleted.</p>
+
+<p><strong>SCORERECODE</strong>=YES causes the input values for variables that include
+a score attribute in the Value elements to be recoded to the
+score values, and the value labels will refer to those values.
+Multiple response variables are not recoded.
+The scores must be consistent with the variable type: a numeric
+variable cannot have string score values.</p>
+
+<p>This command assumes that the xml file conforms to the
+Triple-S 2.0 specification.  If it does not, the command
+may fail rudely.  Information about the standard can be found at
+http://<a href="http://www.triple-s.org/">http://www.triple-s.org/</a>.</p>
+
+<p>NOTE: If the Triple-S website is down or the computer does not have internet access, and your sss file
+includes the DTD reference, this command will fail.  However,
+removing the DTD reference will let it work.  The DTD reference
+looks like this.
+<code>&lt;!DOCTYPE sss PUBLIC &quot;-//triple-s//DTD Survey Interchange v1.1//EN&quot; &quot;http://www.triple-s.org/dtd/sss_v11.dtd&quot;&gt;</code></p>
+
+<p>If multiple response sets are present (multiple dichotomy or
+multiple category) the component variable names are generated
+from the corresponding input of type &ldquo;multiple&rdquo; by appending
+an underscore and numerical suffix.  In the unlikely case where
+this would cause a name collision, paste and edit the syntax as needed.</p>
+
+<p>For single variables and multiple category sets, if the values element
+includes any scores, a custom attribute array named score is created.
+Each array element has the form <em>value|score</em>, and if value includes
+the vertical bar, it is escaped as <code>\|</code>.</p>
+
+<h3>Notes</h3>
+
+<p>Variables of type Date or Time are read as strings.  You can use 
+the Date/Time Wizard to convert these to SPSS dates if needed.</p>
+
+<p>No attempt is made to shorten names or labels that exceed the 
+maximum lengths supported in Statistics.  </p>
+
+<p>Triple-S names are case sensitive while Statistics names are 
+not, so it is possible to have a name collision.</p>
+
+<p>The Triple-S standard requires the comma  as the field separator
+in csv format.  If you are reading a csv file and are in a locale
+where comma is the decimal character, you may have to change your
+Statistics locale in order to read the file.</p>
+
+<p>Language tagged strings are not currently supported.</p>
+
+<p>&copy; Copyright IBM Corp. 1989, 2014</p>
+
+</body>
+
+</html>
+
