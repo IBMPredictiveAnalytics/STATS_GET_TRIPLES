@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>Create and Execute Syntax for Reading Triple-S Files</title>
+<STYLE TYPE="text/css"> 
+<!-- 
+
+H1 {font-weight:bold; color:#006699; font-family:Verdana, Arial, sans-serif;font-size:125%; }
+H2 {font-weight:bold; color:#006699; font-family:Verdana, Arial, sans-serif;font-size:110%; }
+BODY {font-family:Verdana, Arial, sans-serif;font-size:80%; }
+TABLE {font-size:100%;font-family:Verdana, Arial, sans-serif;}
+
+/* paragraph tags */
+.step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+.step-glyph { font-family: Arial, Helvetica, sans-serif; }
+.menuselection {margin-left:10px}
+.bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+.codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;font-family:"courier new",monospace; }
+
+/* inline tags */
+.code {font-family: Courier,fixed pitch;}                           /*** used to tag pieces of code (syntax, Python, R, HTML, etc.)   ***/
+.screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+.name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+.runinhead {font-weight: bold} 
+.superscript {vertical-align:super; font-size:80%}
+.subscript {vertical-align:sub; font-size:80%}
+.symbol {font-family: Symbol}
+
+--> 
+</STYLE>
+</head>
+<body>
+<h1>Create and Execute Syntax for Reading Triple-S Files</h1>
+<p>This command creates and optionally executes syntax for reading a
+file in Triple-S format, version 2.0.  For details on the standard, see
+http://http://www.triple-s.org/</p>
+<p>A Triple-S survey consists of a metadata file in xml format that describes
+the data format, labels, multiple response set definitions and other
+information and a data file in fixed or csv format.
+</p>
+<p>Overall information such as the survey title and date is stored
+in a Document object in the dataset.  Text custom attributes for variables
+may also be created in addition to variable and value labels.  If a
+single variable or multiple category set includes score attributes,
+they are stored as a custom array attribute named score.  The elements
+have the form value|score.  If value includes the vertical bar, it is
+written as \|.</p>
+
+<p class="bullet">• 
+Variables of type Date or Time are read as strings.  You can use 
+the Date/Time Wizard to convert these to SPSS dates.</p>
+<p class="bullet">• 
+No attempt is made to shorten names or labels that exceed the 
+maximum lengths supported in Statistics.</p>
+<p class="bullet">• 
+Triple-S names are case sensitive while Statistics names are 
+not, so it is possible to have a name collision.</p>
+<p class="bullet">• 
+The Triple-S standard requires the comma  as the field separator
+in csv format.  If you are reading a csv file and are in a locale
+where comma is the decimal character, you may have to change your
+Statistics locale in order to read the file unless values with decimals are quoted.</p>
+<p class="bullet">• 
+Language tagged strings are not currently supported.</p>
+
+<p><span class="runinhead">Browse for a Triple-S Metadata File</span> 
+Select the metadata file that describes the data.</p>
+<p class="bullet">• Metadata files of type Hierarchy are not supported.</p>
+
+<p><span class="runinhead">Browse for the Data File</span> 
+Select the data file described by the metadata.  If no selection is
+made, the data file is assumed to have the same root name as the
+metadata file and extension .txt and to be in the same location.
+</p>
+
+<p><span class="runinhead">Syntax File to Save</span> Specify
+a syntax file to hold the syntax that is generated to read the file.</p>
+
+<p><span class="runinhead">Execute generated syntax</span> Check this
+box to execute the generated syntax and read the file.
+
+<p class="bullet">• Either a syntax file must be specified or the
+Execute box must be checked or both.</p>
+
+<p><span class="runinhead">String Missing Value Code</span> Missing
+value codes are not specified in the metadata file.  By default, this
+command will generate a code that is outside the range of valid values
+if missing values are indicated for a variable.
+To specify a specific code for all string variables that have missing values,
+enter it here.  Note that string missing value codes in Statistics are limited to 8
+bytes in length.
+
+<h2>Options</h2>
+<p><span class="runinhead">Multiple Dichotomy Value Labels</span>
+Multiple dichotomy sets are defined with component variable values of
+0 and 1.  Specify the label text here.</p>
+
+<p><span class="runinhead">Create custom attribute with full variable label text</span>
+If variable label text exceeds the Statistics variable label length
+limit, which is 255 bytes in current versions, the text is
+truncated.  Check this box to create a custom
+attribute name FullLabelText with the full text regardless of length.</p>
+
+<p><span class="runinhead">Remove  HTML markup from text</span>
+The Triple-S standard does not support HTML markup, but in
+practice it may be present.  Click this box to remove any
+HTML markup from text.  That causes text of the form
+&lt;...&gt; to be removed, but this could also match text that is not
+actually an html tag to be deleted.</p>
+
+<p><span class="runinhead">Recode variables with score attributes to the score values</span>
+The Triple-S standard allows for variable values to have a score attribute that specifies a value
+associated with each input value.  Check this box to recode the input values automatically
+to their score values.  Multiple response variables are not recoded.  Value labels assigned to the input values are remapped to the score
+values.  If score values are not all distinct, the first value label is used.</p>
+<p class="bullet">• Any value that does not have a score attribute is not recoded</p>
+<p class="bullet">• Since the recodes replace values in the variable being recoded,
+score attributes for numeric variables must not be nonnumeric strings.</p>
+
+
+<h2>Additional Features</h2>
+<p>In syntax you can specify whether the data file is encoded in Unicode utf-8
+or in the current SPSS code page.  The Triple-S standard requires code page
+input, but Unicode may be encountered and should work.</p>
+
+<p>By default, the maximum record length for the data is 50,000 bytes.  In
+syntax you can specify a larger number.</p>
+
+<p>
+This dialog generates syntax for the STATS GET TRIPLES extension command. To display syntax help for this command,
+run the following syntax:
+</p>
+<p class="codeblock">STATS GET TRIPLES /HELP.</p>
+
+<h2>Requirements</h2>
+This command requires the Python Essentials
+You can download the Essentials via the SPSS Community website at www.ibm.com/developerworks/spssdevcentral
+or from your installation materials.  With Statistics 22 or later, the Essentials are
+included by default in your Statistics installation.
+</p>
+  <hr
+  <p style="font-family:Verdana, Arial, sans-serif;font-size:80%;">
+  © Copyright IBM Corp. 2014</p>
+</body>
+</html>
+
