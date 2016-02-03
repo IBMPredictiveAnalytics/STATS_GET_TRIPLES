@@ -1,11 +1,11 @@
 # STATS GET TRIPLES
 ## Read a file in Triple-S format
- Triple-S is an open standard for data files, primarily su
+ Triple-S is an open standard for data files, primarily surveys.  This command reads a fixed-format or csv file conforming to this standard.  It can also generate and save a syntax file for reading the data.
 
 ---
 Requirements
 ----
-- IBM SPSS Statistics 18 or later
+- IBM SPSS Statistics 18 or later and the corresponding IBM SPSS Statistics-Integration Plug-in for Python.
 
 ---
 Installation intructions
