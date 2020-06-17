@@ -1,17 +1,19 @@
 Name: STATS GET TRIPLES
 Dialog-Specs: STATS_GET_TRIPLES.spd
 Command-Specs: STATS_GET_TRIPLES.xml
-Code-Files: STATS_GET_TRIPLES.py
-Misc-Files: markdown.html,extsyntax.css,IBMdialogicon.png
+Code-Files: STATS_GET_TRIPLES.PY
+Misc-Files: extsyntax.css,IBMdialogicon.png,markdown.html
 Summary: Read a file in Triple-S format
 Description: Triple-S is an open standard for data files, primarily su
  rveys.  This command reads a fixed-format or csv file conforming to t
  his standard.  It can also generate and save a syntax file for readin
  g the data.
 Author: JKP, IBM SPSS
-Version: 1.1.5
-Product-Version: 18
+Version: 2.1.5
+Product-Version: 24
 Date: 2/3/14
+Product-Version-Maximum: 99
 Categories: utility
 Plugins: Python
+Python-Version: 3
 Translation-Catalogues: lang

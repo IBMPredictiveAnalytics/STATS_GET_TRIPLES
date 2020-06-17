@@ -3,13 +3,13 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 2014
+# * (C) Copyright IBM Corp. 1989,2020
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
 # ************************************************************************/
 
-from __future__ import with_statement
+
 import random, os, tempfile, textwrap, codecs, re, locale, sys, os.path, time, re
 from xml.sax.handler import ContentHandler
 import xml.sax
@@ -184,7 +184,7 @@ def dotriples(metadatafile, syntax=None, data=None, language=None,
         dataencoding, maxdatalength, fulllabelattr, mdsetvallabels, scorerecode)
     if not syntax is None:
         writesyntax(cmds, syntax)
-        print _("""Syntax file created: %s""") % syntax
+        print(_("""Syntax file created: %s""") % syntax)
     if execute:
         try:
             spss.Submit(cmds)
@@ -211,33 +211,33 @@ class metadataHandler(ContentHandler):
 
     # callbacks from parser    
     def startElement(self, name, attr):
-        if name == u'sss':
-            self.datafile = Datafile(getValue(attr, u'version'), getValue(attr, u'languages'),
-                getValue(attr, u'modes'))
-        elif name == u'survey':
+        if name == 'sss':
+            self.datafile = Datafile(getValue(attr, 'version'), getValue(attr, 'languages'),
+                getValue(attr, 'modes'))
+        elif name == 'survey':
             self.state = 'survey'
-        elif name == u'record':
+        elif name == 'record':
             self.state = 'record'
-            self.record = Record(getValue(attr, u'ident'), getValue(attr, u'format'),
-                getValue(attr, u'skip'), getValue(attr, u'href'))
+            self.record = Record(getValue(attr, 'ident'), getValue(attr, 'format'),
+                getValue(attr, 'skip'), getValue(attr, 'href'))
             if self.record.format is None:
                 self.record.format = "fixed"  #3/26/14
-        elif name == u'variable':
-            self.variables.append(Variable(**dict(zip(['ident','type','use','format'], 
-                [getValue(attr, item) for item in [u'ident','type','use','format']]))))
-        elif name == u'position':
-            self.variables[-1].position = [getValue(attr, u'start'),
-                getValue(attr, u'finish')]
+        elif name == 'variable':
+            self.variables.append(Variable(**dict(list(zip(['ident','type','use','format'], 
+                [getValue(attr, item) for item in ['ident','type','use','format']])))))
+        elif name == 'position':
+            self.variables[-1].position = [getValue(attr, 'start'),
+                getValue(attr, 'finish')]
         elif name == "spread":
-            self.variables[-1].spreadsubfields = getValue(attr, u'subfields')
-            self.variables[-1].spreadwidth = getValue(attr, u'width')
+            self.variables[-1].spreadsubfields = getValue(attr, 'subfields')
+            self.variables[-1].spreadwidth = getValue(attr, 'width')
         elif name == 'range':
-            self.variables[-1].rangefrom = getValue(attr, u'from')
-            self.variables[-1].rangeto = getValue(attr, u'to')
+            self.variables[-1].rangefrom = getValue(attr, 'from')
+            self.variables[-1].rangeto = getValue(attr, 'to')
         elif name == 'value':
-            self.code = getValue(attr, u'code')
+            self.code = getValue(attr, 'code')
             ###self.variables[-1]. = self.code
-            self.variables[-1].scores[self.code] = getValue(attr, u'score')
+            self.variables[-1].scores[self.code] = getValue(attr, 'score')
         elif name == "text":
             self.variables[-1].mode = getValue(attr, "mode")
             self.intext = True
@@ -250,9 +250,9 @@ class metadataHandler(ContentHandler):
                 self.textstack.append(" - ")
             else:
                 self.contentstack.append(" - ")
-        elif self.state in ['start', 'survey'] and name in [u'date', u'time', u'origin', u'user', u'name', u'version', u'title']:
+        elif self.state in ['start', 'survey'] and name in ['date', 'time', 'origin', 'user', 'name', 'version', 'title']:
             self.addContent(self.datafile, name)
-        elif self.state in ['record'] and name in [u'name', u'label']:
+        elif self.state in ['record'] and name in ['name', 'label']:
             self.addContent(self.variables[-1], name)
         elif name == "filter":   # missing value
             self.variables[-1].filter = self.contentstack[0]
@@ -273,7 +273,7 @@ class metadataHandler(ContentHandler):
             self.intext = False
             self.textstack = []
             
-        if name == u'sss':
+        if name == 'sss':
             return   'all done'
             
     def characters(self, content):
@@ -395,7 +395,7 @@ class Variable(object):
             else: #MD set (bitstring format)
                 self.multtype = "MD"
                 if self.position[1] is None:
-                    endloc = max((int(k) for k in self.values.keys())) + int(self.position[0]) - 1
+                    endloc = max((int(k) for k in list(self.values.keys()))) + int(self.position[0]) - 1
                 else:
                     endloc = int(self.position[1])
                 varcount = (endloc - int(self.position[0]) + 1) // width
@@ -659,8 +659,8 @@ class Datafile(object):
         # Selected attributes are generated first followed by any other
         # attributes in alpha order
         
-        doc = [u'ADD DOCUMENT ']
-        priority = [u'title', u'name',u'version', u'date']
+        doc = ['ADD DOCUMENT ']
+        priority = ['title', 'name','version', 'date']
         for item in priority:
             if hasattr(self, item):
                 doc.extend(quoteprefixandlist(item + ": ", getattr(self,item)))
@@ -785,7 +785,7 @@ def writesyntax(syntax, syntaxfile):
         ###ec = codecs.getencoder("utf_8")   # must figure string length in bytes of utf-8    
         inputencoding = "unicode_internal"
         outputencoding = "utf_8_sig"
-        nl = u"\n"
+        nl = "\n"
     else:
         inputencoding = locale.getlocale()[1]
         outputencoding = inputencoding
@@ -802,7 +802,7 @@ Running Statistics in Unicode mode might resolve this problem."""))
 def attributesFromDict(d):
     """build self attributes from a dictionary d."""
     self = d.pop('self')
-    for name, value in d.iteritems():
+    for name, value in d.items():
         setattr(self, name, value)
 
 def StartProcedure(procname, omsid):
@@ -884,7 +884,7 @@ class FileHandles(object):
 def Run(args):
     """Execute the STATS TRIPLES extension command"""
 
-    args = args[args.keys()[0]]
+    args = args[list(args.keys())[0]]
 
     oobj = Syntax([
         Template("METADATA", subc="",  ktype="literal", var="metadatafile"),
@@ -911,7 +911,7 @@ def Run(args):
         def _(msg):
             return msg
     # A HELP subcommand overrides all else
-    if args.has_key("HELP"):
+    if "HELP" in args:
         #print helptext
         helper()
     else:
@@ -931,7 +931,7 @@ def helper():
     # webbrowser.open seems not to work well
     browser = webbrowser.get()
     if not browser.open_new(helpspec):
-        print("Help file not found:" + helpspec)
+        print(("Help file not found:" + helpspec))
 try:    #override
     from extension import helper
 except:
