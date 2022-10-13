@@ -1,4 +1,5 @@
 Name: STATS GET TRIPLES
+Display-Name: Read Triple-S file
 Dialog-Specs: STATS_GET_TRIPLES.spd
 Command-Specs: STATS_GET_TRIPLES.xml
 Code-Files: STATS_GET_TRIPLES.PY
